@@ -11,6 +11,7 @@ import EditVacation from "../../AdminArea/EditVacation/EditVacation";
 import VacationsReports from "../../AdminArea/VacationsReports/VacationsReports";
 import About from "../../HomeArea/About/About";
 import ContactUs from "../../HomeArea/ContactUs/ContactUs";
+import Register from "../../Autharea/Register/Register";
 
 
 function Routing(): JSX.Element {
@@ -18,11 +19,12 @@ function Routing(): JSX.Element {
         <div className="Routing">
 			<Switch>
         <Route path="/home" component={Home} exact/>
+        <Route path="/register" component={Register} exact/>
         <Route path="/login" component={Login} exact/>
         <Route path="/logout" component={Logout} exact/>
-        <Route path="/Vacations" component={VacationsList} exact/>
-        <Route path="/Vacations/new" component={AddVacation} exact/>
-        <Route path="/vacations/edit:vacationId" component={EditVacation} exact/>
+        <Route path="/vacations" component={VacationsList} exact/>
+        <Route path="/vacations/add-vacation" component={AddVacation} exact/>
+        <Route path="/vacations/edit/:vacationId" component={EditVacation} exact/>
         <Route path="/vacations/reports" component={VacationsReports} exact/>
         <Route path="/about" component={About} exact/>
         <Route path="/contact-us" component={ContactUs} exact/>

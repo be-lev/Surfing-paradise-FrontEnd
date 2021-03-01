@@ -1,3 +1,4 @@
 .Login {
-	
+	display: inline-block; 
+    /* because this is a div and i want the buttons inline  */
 }

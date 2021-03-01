@@ -1,3 +1,13 @@
 .AddVacation {
-	
-}
+        width: 250px;
+        box-sizing: border-box;
+        font-size: large;
+        color: black;
+    }
+    
+    form {
+        text-align: left;
+        width: 250px;
+        margin: auto;
+    }
+    

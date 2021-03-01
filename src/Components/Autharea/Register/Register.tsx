@@ -1,45 +1,26 @@
-import { useState } from "react";
-import UserModel from "../UserModel";
-import "./Login.css";
-import { socketManagerInstance } from "../../../Socket.io/SocketManager";
-import {
-  TextField,
-  makeStyles,
-  Typography,
-  createMuiTheme,
-  ThemeProvider,
-} from "@material-ui/core";
+import {TextField, makeStyles,Typography,createMuiTheme,ThemeProvider} from "@material-ui/core";
+import React from "react";
 import { green, orange } from "@material-ui/core/colors";
-import { useForm } from "react-hook-form"; // npm i react-hook-form
+import "./Register.css";
+import { useForm  } from "react-hook-form"; // npm i react-hook-form
+import UserModel from "../UserModel";
 import { Globals } from "../../../Services/Globals";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import Input from "@material-ui/core/Input";
-import store from "../../../Redux/store";
-import { userLoggedInAction } from "../../../Redux/AuthState";
-
-function Login(): JSX.Element {
 
 
+
+function Register(): JSX.Element {
   const history = useHistory();
   const { register, handleSubmit } = useForm<UserModel>();
 
   async function send(user: UserModel) {
     try {
-      console.log("user from form: " + user);
-      const response = await Axios.post<UserModel>(
-        Globals.authUrl + "login",
-        user
-      );
+      await Axios.post<UserModel>(Globals.authUrl + "register", user);
+      alert("Hi, " + user.firstName +  " " + "you are a part of the family now");
 
-      const userLoggedIn = response.data;
-      const action = userLoggedInAction(userLoggedIn);
-      store.dispatch(action);
-
-      socketManagerInstance.connect();
-
-
-      history.push("/home");
+      history.push("/login");
     } catch (err) {
       console.log(err);
       alert("Error");
@@ -75,8 +56,27 @@ function Login(): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
       <div className="register">
-        <Typography variant="h3">Login </Typography>
+        <Typography variant="h3">
+          Register{" "}
+        </Typography>
         <form onSubmit={handleSubmit(send)}>
+          <TextField
+            label="First Name"
+            name="firstName"
+            variant="outlined"
+            className={classes.textBox}
+            inputRef={register}
+          />
+          <br />
+          <TextField
+            label="Last Name"
+            type="text"
+            name="lastName"
+            variant="outlined"
+            className={classes.textBox}
+            inputRef={register}
+          />
+          <br />
           <TextField
             label="Username"
             type="text"
@@ -102,4 +102,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default Register;

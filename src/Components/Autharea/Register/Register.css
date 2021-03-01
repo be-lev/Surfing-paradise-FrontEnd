@@ -1,0 +1,8 @@
+.Register {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+}

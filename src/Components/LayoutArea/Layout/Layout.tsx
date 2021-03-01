@@ -13,9 +13,6 @@ function Layout(): JSX.Element {
             <Menu/>
                 <Header/>
             </header>
-            <aside>
-                
-            </aside>
             <main>
                 <Routing/>
             </main>
