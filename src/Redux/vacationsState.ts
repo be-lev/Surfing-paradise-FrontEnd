@@ -54,7 +54,7 @@ export function VacationsReducer(currentState: VacationState = new VacationState
             break;
 
         case VacationActionType.VacationUpdated:
-            const indexToUpdate = newState.vacations.findIndex(v => v.vacationId === action.payload.id);
+            const indexToUpdate = newState.vacations.findIndex(v => v.vacationId === action.payload.vacationId);
             newState.vacations[indexToUpdate] = action.payload
             break;
 
@@ -64,7 +64,8 @@ export function VacationsReducer(currentState: VacationState = new VacationState
             break;
 
         case VacationActionType.VacationFollowed:
-            newState.vacations[indexToUpdate] = action.payload
+            const indexToUpdate1 = newState.vacations.findIndex(v => v.vacationId === action.payload.vacationId);
+            newState.vacations[indexToUpdate1] = action.payload
             break;
     }
 
