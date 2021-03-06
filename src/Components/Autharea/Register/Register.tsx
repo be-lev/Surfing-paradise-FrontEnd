@@ -95,7 +95,7 @@ function Register(): JSX.Element {
             inputRef={register}
           />
           <br />
-          <input type="submit" />
+          <input className="input-button" type="submit" />
         </form>
       </div>
     </ThemeProvider>

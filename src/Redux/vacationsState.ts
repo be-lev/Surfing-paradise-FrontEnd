@@ -8,7 +8,8 @@ export enum VacationActionType {
     VacationDownloaded = "VacationDownloaded",
     VacationAdded = "VacationAdded",
     VacationUpdated = "VacationUpdated",
-    VacationDeleted = "VacationDeleted"
+    VacationDeleted = "VacationDeleted",
+    VacationFollowed = "VacationFollowed"
 };
 
 export interface VacationAction {
@@ -34,6 +35,10 @@ export function vacationDeletedAction(vacation: VacationModel): VacationAction {
     return { type: VacationActionType.VacationDeleted, payload: vacation }
 };
 
+export function vacationFollowedAction(vacation: VacationModel): VacationAction {
+    return { type: VacationActionType.VacationFollowed, payload: vacation }
+};
+
 
 
 export function VacationsReducer(currentState: VacationState = new VacationState(), action: VacationAction): VacationState {
@@ -43,20 +48,27 @@ export function VacationsReducer(currentState: VacationState = new VacationState
         case VacationActionType.VacationDownloaded:
             newState.vacations = action.payload;
             break;
+            
         case VacationActionType.VacationAdded:
             newState.vacations.push(action.payload)
             break;
 
         case VacationActionType.VacationUpdated:
- 
             const indexToUpdate = newState.vacations.findIndex(v => v.vacationId === action.payload.id);
             newState.vacations[indexToUpdate] = action.payload
             break;
+
         case VacationActionType.VacationDeleted:
             const indexToDelete = newState.vacations.findIndex(v => v.vacationId === action.payload)
             newState.vacations.splice(indexToDelete, 1)
             break;
+
+        case VacationActionType.VacationFollowed:
+            newState.vacations[indexToUpdate] = action.payload
+            break;
     }
+
+
     return newState
 }
 

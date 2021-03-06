@@ -14,26 +14,22 @@ import { useForm } from "react-hook-form"; // npm i react-hook-form
 import { Globals } from "../../../Services/Globals";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-import Input from "@material-ui/core/Input";
 import store from "../../../Redux/store";
 import { userLoggedInAction } from "../../../Redux/AuthState";
 
 function Login(): JSX.Element {
-
-
-  const history = useHistory();
+ const history = useHistory();
   const { register, handleSubmit } = useForm<UserModel>();
 
   async function send(user: UserModel) {
     try {
-      console.log("user from form: " + user);
       const response = await Axios.post<UserModel>(
         Globals.authUrl + "login",
         user
       );
 
       const userLoggedIn = response.data;
-      const action = userLoggedInAction(userLoggedIn);
+      const action = userLoggedInAction({...userLoggedIn, isLoggedIn:true} );
       store.dispatch(action);
 
       socketManagerInstance.connect();
@@ -46,7 +42,6 @@ function Login(): JSX.Element {
     }
   }
 
-  //creating my own classes
   const createClasses = makeStyles({
     textBox: { margin: "5px 0", width: "400px" },
   });
@@ -95,7 +90,7 @@ function Login(): JSX.Element {
             inputRef={register}
           />
           <br />
-          <input type="submit" />
+          <input className="input-button" type="submit"/>
         </form>
       </div>
     </ThemeProvider>

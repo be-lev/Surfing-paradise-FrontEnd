@@ -1,7 +1,19 @@
 import UserModel from "../Components/Autharea/UserModel"
 
+
+
 export class AuthState {
-    public user : UserModel = null ;
+    public user:UserModel = {
+    firstName:"" ,
+     lastName: "",
+     username: "",
+     password: "",
+     id: "",
+     uuid: "",
+     isLoggedIn: false,
+     findIndex: "",
+    splice: ""
+    } 
 }
 
 export enum AuthActionType {
@@ -37,6 +49,7 @@ export function authReducer(currentState: AuthState = new AuthState(), action: A
 
     switch (action.type) {  
         case AuthActionType.userLoggedIn:
+            newState.user = 
             newState.user = action.payload;
             break;
 

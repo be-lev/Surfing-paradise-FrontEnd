@@ -1,6 +1,4 @@
-import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import store from "../../../Redux/store";
@@ -13,26 +11,12 @@ function AddVacation(): JSX.Element {
 
     const history= useHistory();
 
-//     const [vacations, setVacations]= useState<VacationModel[]>([])
-    
-    
-//     useEffect(()=>{(async()=>{
-//         const response = await axios.get<VacationModel[]>(
-//             Globals.vacationsUrl
-//           );
-//           const vacations = response.data;
-    
-//           setVacations(vacations);
-
-//     })()
-// },[]);
-
 const { register, handleSubmit, errors } = useForm<VacationModel>();
 
 
 async function submit(vacation: VacationModel) {
     try {
-
+console.log(vacation);
         const myFormData = new FormData(); // Object which can send anything to the server - native data + files
         myFormData.append("destination", vacation.destination);
         myFormData.append("description", vacation.description);
@@ -40,10 +24,6 @@ async function submit(vacation: VacationModel) {
         myFormData.append("toDate", vacation.toDate.toString());
         myFormData.append("price", vacation.price.toString());
         myFormData.append("image", vacation.image.item(0));
-      
-      
-    
-      
       
         const response = await axios.post<VacationModel>(
         Globals.vacationsUrl,
@@ -104,8 +84,6 @@ async function submit(vacation: VacationModel) {
     {errors.price?.type === "max" && <span>Price can't exceed 10,000.</span>}
     <br /> <br />
 
-
-{/* //TODO: resolve image issues */}
 
     <label>Image: </label> <br />
     <input type="file" name="image" accept="image/*" ref={register({ required: true })} />

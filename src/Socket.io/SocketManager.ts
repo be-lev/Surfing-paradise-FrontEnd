@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import store from "../Redux/store";
-import VacationsModel from "../Components/VacationsArea/Models/VacationModel"
-import{vacationAddedAction, vacationUpdatedAction ,vacationDeletedAction} from "../Redux/vacationsState"
+import{vacationAddedAction, vacationUpdatedAction ,vacationDeletedAction, vacationFollowedAction} from "../Redux/vacationsState"
+import VacationModel from "../Components/VacationsArea/Models/VacationModel";
 
 class SocketManager {
 
@@ -15,18 +15,23 @@ class SocketManager {
 
         // Listen to socket.io events from backend- socket-helper:
         //when socket receive a message from server post action update redux state with the corresponding action
-        this.socket.on("msg-from-server-vacation-added", (addedVacation: VacationsModel) => {
+        this.socket.on("msg-from-server-vacation-added", (addedVacation: VacationModel) => {
+            console.log(addedVacation);
             store.dispatch(vacationAddedAction(addedVacation));
         });
 
-        this.socket.on("msg-from-server-vacation-updated", (updatedVacation: VacationsModel) => {
+        this.socket.on("msg-from-server-vacation-updated", (updatedVacation: VacationModel) => {
            store.dispatch(vacationUpdatedAction(updatedVacation))
         });
 
         //! i suspect the ID argument here
-        this.socket.on("msg-from-server-vacation-deleted", (id: VacationsModel) => {
+        this.socket.on("msg-from-server-vacation-deleted", (id: VacationModel) => {
             store.dispatch(vacationDeletedAction(id))
         });
+
+        this.socket.on("msg-from-server-vacation-followed", (addedFollowVacation: VacationModel)=> {
+            store.dispatch(vacationFollowedAction(addedFollowVacation))   
+        })
     }
 
 //on logout of admin

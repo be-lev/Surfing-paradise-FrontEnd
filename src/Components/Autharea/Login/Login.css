@@ -2,3 +2,25 @@
 	display: inline-block; 
     /* because this is a div and i want the buttons inline  */
 }
+
+
+.input-button {
+    margin-top: 15px;
+    width: 125px;
+    transition-duration: 0.4s;
+    background-color: inherit; 
+    color: gray;
+    border: 2px solid green; 
+    border-radius: 12px;
+    font-size: 18px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-style: italic;
+    font: medium;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.input-button:hover {
+    background-color: #4CAF50; /* Green */
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+  }
