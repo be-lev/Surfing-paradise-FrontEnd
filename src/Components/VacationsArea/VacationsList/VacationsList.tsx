@@ -7,7 +7,6 @@ import "./VacationsList.css";
 import VacationCard from "../VacationCard/VacationCard";
 import { Globals } from "../../../Services/Globals";
 import { useSelector  } from 'react-redux'
-import VacationFollowCount from "../VacationFollowCount/VacationFollowCount";
 
 function VacationsList(): JSX.Element {
 
@@ -20,27 +19,33 @@ const vacationData = async () => {
         Globals.vacationsUrl
       );
       const vacationsData = response.data.map(vacation=> ({...vacation, isFollowed: false}));
+      console.log(vacationsData);
       const action = await vacationsDownloadedAction(vacationsData);
       store.dispatch(action);
+      
 }
+
 
   useEffect( () => {
       if(vacations.length===0){
      vacationData();
+   
     }
   }, []);
 
- 
 
+  console.log(vacations);
   if (!user.isLoggedIn)return <h1>please login</h1>
   return (
     <div className="VacationsList">
-      {vacations.map((v:VacationModel) => {
+
+      {vacations.sort(function(x:any,y:any){return y.isFollowed-x.isFollowed}).map((v:VacationModel) => {
           return (
               <VacationCard key={v.vacationId} singleVacation={v} />
           );
       })}
-        <VacationFollowCount/>
+       
+
     </div>
   );
 }

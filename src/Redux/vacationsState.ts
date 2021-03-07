@@ -65,6 +65,7 @@ export function VacationsReducer(currentState: VacationState = new VacationState
 
         case VacationActionType.VacationFollowed:
             const indexToUpdate1 = newState.vacations.findIndex(v => v.vacationId === action.payload.vacationId);
+            console.log("action.payload" + action.payload);
             newState.vacations[indexToUpdate1] = action.payload
             break;
     }

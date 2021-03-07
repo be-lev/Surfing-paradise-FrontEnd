@@ -1,23 +1,34 @@
 import "./VacationFollowCount.css";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import VacationModel from "../Models/VacationModel";
 import { Globals } from "../../../Services/Globals";
-
+import { vacationFollowedAction } from "../../../Redux/vacationsState";
+import store from "../../../Redux/store";
 
 
 function VacationFollowCount(): JSX.Element {
-    const { user } = useSelector((state) => state.authState);
     const {vacations} = useSelector(state=> state.VacationState)
+    const vacationIdFromVacations = vacations.map(v=> v.vacationId)
 
-
-const bla = vacations.filter(v=> v.isFollowed === true)
-console.log(bla);
-
-const FollowCountData = async () =>{
-    const response = await axios.post<VacationModel>(Globals.vacationsUrl+ "followVacation")
-}
-
+const followCountData = async () =>{
+    for(let i =0; i<vacationIdFromVacations.length; i++){
+        const response = await axios.get<number>(Globals.vacationsUrl+ "vacationFollowersCount/" + vacationIdFromVacations[i])
+        const followedCounterData= response.data
+        console.log('followedCounterData: ' +(vacations.filter(v=> v.vacationId === vacationIdFromVacations[i])));
+        const action = vacationFollowedAction({
+            ...vacations.filter(v=> v.vacationId === vacationIdFromVacations[i]),
+            followCount: followedCounterData[0].count
+          });
+        store.dispatch(action)
+        
+    
+    }
+}  
+    useEffect( () => {
+        followCountData();
+      
+    }, []);
 
     return (
         <div className="VacationFollowCount">
