@@ -58,10 +58,7 @@ function VacationCard({ singleVacation }: VacationsCardProps): JSX.Element {
         label="Follow me"
       />
       </span>
-      <br/>
-        Total Followers: {singleVacation.followCount}
-      <br/>
-      <br />
+        <span className="follow-count-span">Total Followers: {singleVacation.followCount}</span>
       Destination: {singleVacation.destination}
       <br />
       Description:

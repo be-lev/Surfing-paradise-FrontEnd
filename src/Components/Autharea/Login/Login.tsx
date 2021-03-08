@@ -15,6 +15,8 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import store from "../../../Redux/store";
 import { userLoggedInAction } from "../../../Redux/AuthState";
+import { setAuthorizationToken } from "../Auth/auth";
+import jwt from  'jsonwebtoken';
 
 function Login(): JSX.Element {
  const history = useHistory();
@@ -26,8 +28,11 @@ function Login(): JSX.Element {
         Globals.authUrl + "login",
         user
       );
-
       const userLoggedIn = response.data;
+      const token = userLoggedIn.token
+      sessionStorage.setItem("jwtToken", JSON.stringify(token))
+      setAuthorizationToken(token)
+      console.log(jwt.decode(token));
       const action = userLoggedInAction({...userLoggedIn, isLoggedIn:true} );
       store.dispatch(action);
 
@@ -93,6 +98,7 @@ function Login(): JSX.Element {
         </form>
       </div>
     </ThemeProvider>
+   
   );
 }
 

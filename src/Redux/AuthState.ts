@@ -9,6 +9,7 @@ export class AuthState {
      username: "",
      password: "",
      id: "",
+     token:"",
      uuid: "",
      isLoggedIn: false,
      findIndex: "",

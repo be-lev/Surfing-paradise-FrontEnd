@@ -16,7 +16,6 @@ const { register, handleSubmit, errors } = useForm<VacationModel>();
 
 async function submit(vacation: VacationModel) {
     try {
-console.log(vacation);
         const myFormData = new FormData(); // Object which can send anything to the server - native data + files
         myFormData.append("destination", vacation.destination);
         myFormData.append("description", vacation.description);
