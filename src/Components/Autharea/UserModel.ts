@@ -8,7 +8,7 @@ class UserModel {
     public id: string;
     public uuid: string;
     public isLoggedIn: boolean;
-    
+    public isAdmin: boolean;
     findIndex: any;
     splice: any;
 }

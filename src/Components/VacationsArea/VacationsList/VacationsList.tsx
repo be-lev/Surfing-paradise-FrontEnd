@@ -7,11 +7,11 @@ import "./VacationsList.css";
 import VacationCard from "../VacationCard/VacationCard";
 import { Globals } from "../../../Services/Globals";
 import { useSelector  } from 'react-redux'
-import { NavLink } from "react-router-dom";
+
 
 function VacationsList(): JSX.Element {
-const {user} = useSelector(state => state.authState)
 
+const {user} = useSelector(state => state.authState)
 const {vacations} = useSelector(state=> state.VacationState)
 
 const vacationData = async () => {
@@ -25,17 +25,12 @@ const vacationData = async () => {
       
 }
 
-
   useEffect( () => {
       if(vacations.length===0){
      vacationData();
    
     }
   }, []);
-
-// if(!sessionStorage.getItem("user"))return
-// console.log(sessionStorage.getItem("user"));
-//   if (!user.isLoggedIn)return <NavLink to={"/login"}><h1>Please login</h1></NavLink>;
  
   return (
     <div className="VacationsList">
@@ -46,7 +41,7 @@ const vacationData = async () => {
           );
       })}
       
-       
+       {user.isLoggedIn && (<button>you are login</button>)}
 
     </div>
   );

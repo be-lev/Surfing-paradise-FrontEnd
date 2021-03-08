@@ -8,12 +8,14 @@ export class AuthState {
      lastName: "",
      username: "",
      password: "",
+     isAdmin:false,
      id: "",
      token:"",
      uuid: "",
      isLoggedIn: false,
      findIndex: "",
-    splice: ""
+    splice: "",
+    
     } 
 }
 

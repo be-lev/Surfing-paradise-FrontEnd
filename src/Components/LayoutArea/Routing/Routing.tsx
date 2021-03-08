@@ -24,7 +24,7 @@ function Routing(): JSX.Element {
         <Route path="/logout" component={Logout} exact/>
         <Route path="/vacations" component={VacationsList} exact/>
         <Route path="/vacations/add-vacation" component={AddVacation} exact/>
-        <Route path="/vacations/edit/:vacationId" component={EditVacation} exact/>
+        <Route path="/vacations/edit/:vacId" component={EditVacation} exact/>
         <Route path="/vacations/reports" component={VacationsReports} exact/>
         <Route path="/about" component={About} exact/>
         <Route path="/contact-us" component={ContactUs} exact/>

@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Menu.css";
+import AuthButton from "../AuthButton/AuthButton";
 
 
 function Menu(): JSX.Element {
@@ -17,9 +18,10 @@ function Menu(): JSX.Element {
             <span> | </span>
             <NavLink to={"/login"} > Login </NavLink>
             <span> | </span>
-            <NavLink to={"/logout"} > Logout </NavLink>
-			
+            <NavLink to={"/logout"} > Logout </NavLink> 
 
+            {/* <AuthButton /> */}
+			
         </div>
     );
 }

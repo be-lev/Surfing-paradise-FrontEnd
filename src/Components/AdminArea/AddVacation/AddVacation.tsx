@@ -32,7 +32,7 @@ async function submit(vacation: VacationModel) {
       const action = vacationAddedAction(addedVacation);
       store.dispatch(action);
       alert(
-        "Product ID: " + addedVacation.vacationId + "has been successfully added"
+        "Vacation ID: " + addedVacation.vacationId + "has been successfully added"
       );
 
       history.push("/vacations");

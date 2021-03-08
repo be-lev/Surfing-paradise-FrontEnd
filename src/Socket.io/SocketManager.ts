@@ -25,8 +25,8 @@ class SocketManager {
         });
 
         //! i suspect the ID argument here
-        this.socket.on("msg-from-server-vacation-deleted", (id: VacationModel) => {
-            store.dispatch(vacationDeletedAction(id))
+        this.socket.on("msg-from-server-vacation-deleted", (vacationId: VacationModel) => {
+            store.dispatch(vacationDeletedAction(vacationId))
         });
 
         this.socket.on("msg-from-server-vacation-followed", (addedFollowVacation: VacationModel)=> {
