@@ -8,16 +8,23 @@ import { vacationUpdatedAction } from "../../../Redux/vacationsState";
 import { useSelector  } from 'react-redux'
 import VacationModel from "../../VacationsArea/Models/VacationModel";
 import axios from "axios";
+
+
+//get props params
 interface MatchParams {
     vacId: string;
 }
+//enable history
 interface EditVacationProps extends RouteComponentProps<MatchParams> {
     history: History;
 }
 function EditVacation(props: EditVacationProps): JSX.Element {
-    
+
+    //subscribe to redux state
 const {vacations} = useSelector(state=> state.VacationState)
+//find single vacation to edit
 const vacation = vacations.find(v=> v.vacationId === +props.match.params.vacId)
+// enable use form with validation
 const { register, handleSubmit, errors } = useForm<VacationModel>({ defaultValues: vacation });
 
 async function submit(vacation: VacationModel) {
@@ -35,15 +42,13 @@ async function submit(vacation: VacationModel) {
         myFormData
       );
       const updatedVacation = response.data;
-      const action = vacationUpdatedAction(updatedVacation);
-      store.dispatch(action);
       alert(
         "Vacation ID: " + updatedVacation.vacationId + "has been successfully added"
       );
 
       props.history.push("/vacations");
     } catch (err) {
-      console.log(err.response);
+      console.log(err.response + " update vacation filed");
       alert("Error");
     }
   }
@@ -91,7 +96,7 @@ async function submit(vacation: VacationModel) {
 
 
     <label>Image: </label> <br />
-    <input type="file" name="image" accept="image/*" ref={register({ required: true })} />
+    <input type="file" name="image" accept="image/*" ref={register} />
     {errors.imageName && <span>Missing image.</span>}
     <br /> <br />
 

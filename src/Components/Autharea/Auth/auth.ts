@@ -1,6 +1,6 @@
 import axios from "axios";
 
-
+// adding Interceptor JWT authorization
 export function setAuthorizationToken(token){
     if (token){
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

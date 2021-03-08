@@ -1,8 +1,8 @@
-.VacationCard {
+.AdminVacationCard {
   border: 1px solid black;
   background-image: linear-gradient(pink, gray);
-  width: 320px;
-  height: 480px;
+  width: 300px;
+  height: 470px;
   display: inline-block;
   padding: 10px;
   margin: 20px;
@@ -11,7 +11,7 @@
   overflow: auto;
 }
 
-.VacationCard img {
+.AdminVacationCard img {
     width: 200px;
     height: 120px;
     transform:translateY(30px);
@@ -27,9 +27,9 @@
 }
 
 .follow-count-span{
-    margin-left: 100px;
+    margin-left: 150px;
     width: 100px;
-    transform:translateX(+60px);
+    transform:translateX(+80px);
     transform:translateY(-40px);
     display: inline-block;
 

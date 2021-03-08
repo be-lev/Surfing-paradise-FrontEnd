@@ -5,68 +5,88 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import { vacationDeletedAction, vacationFollowedAction } from "../../../Redux/vacationsState";
+import { vacationFollowedAction } from "../../../Redux/vacationsState";
 import store from "../../../Redux/store";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
-import EditIcon from "@material-ui/icons/Edit";
+import { useEffect } from "react";
 
 interface VacationsCardProps {
   singleVacation: VacationModel;
 }
 
 function VacationCard({ singleVacation }: VacationsCardProps): JSX.Element {
+  //subscribe to state
   const { user } = useSelector((state) => state.authState);
-
+  //format date to for UI presenting
   const reformatDate = (sqlDate: any) => {
     const date = new Date(sqlDate);
     return date.toLocaleDateString();
   };
 
-  //dispatch value from follow button in the vacation card and update the server 
-  const handleFollowVacation = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const followCheckBoxValue = event.target.checked;
-    const action = vacationFollowedAction({
-      ...singleVacation,
-      isFollowed: followCheckBoxValue,
-    });
-    store.dispatch(action);
-
-    if (followCheckBoxValue) {
-      await axios.post<any>(Globals.vacationsUrl + "followVacation", {
-        singleVacation,
-        user,
-      });
-    } else {
-      await axios.delete<VacationModel>(
-        Globals.vacationsUrl + "followVacation/" + singleVacation.vacationId
+  //get User Follow Status from the server
+  const checkIfFollowed = async () => {
+    try {
+      const response = await axios.get<boolean>(
+        Globals.vacationsUrl +
+          "isFollowed/" +
+          singleVacation.vacationId +
+          "/" +
+          user.uuid
       );
+      //update redux
+      const action = vacationFollowedAction({
+        ...singleVacation,
+        isFollowed: response.data,
+      });
+      store.dispatch(action);
+    } catch (err) {
+      console.log(err.message + "something went wrong with the server  ");
     }
   };
 
-  const DeleteVacation = async (event: React.MouseEvent<HTMLElement>) => {
-    const answer = window.confirm("Are you sure?");
-        if (!answer) return;
-        await axios.delete<VacationModel>(Globals.vacationsUrl + singleVacation.vacationId);
-        const action = vacationDeletedAction(singleVacation)
-        store.dispatch(action);
-  };
+  //unsubscribe and fetch data on demand
+  useEffect(() => {
+    checkIfFollowed();
+  }, []);
 
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      button: {
-        margin: theme.spacing(1),
-      },
-    })
-  );
-  const classes = useStyles();
+  //dispatch value from follow button in the vacation card and update the server
+  const handleFollowVacation = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    //get value from checkbox
+    const followCheckBoxValue = event.target.checked;
+    //based on checkbox value preform add follow
+    if (followCheckBoxValue) {
+      try {
+        await axios.post<any>(Globals.vacationsUrl + "followVacation", {
+          singleVacation,
+          user,
+        });
+      } catch (err) {
+        console.log(
+          err.message +
+            "something went wrong with following the vacation we are sorry  "
+        );
+      }
+    } else {
+      //based on checkbox value preform delete follow from server
+      try {
+        await axios.delete<any>(
+          Globals.vacationsUrl +
+            "followVacation/" +
+            singleVacation.vacationId +
+            "/" +
+            user.uuid
+        );
+      } catch (err) {
+        console.log(
+          err.message +
+            "something went wrong with un-following the vacation we are sorry "
+        );
+      }
+    }
+  };
 
   return (
     <div className="VacationCard">
@@ -77,7 +97,7 @@ function VacationCard({ singleVacation }: VacationsCardProps): JSX.Element {
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}
               name="checkedH"
-              defaultChecked={singleVacation.isFollowed}
+              defaultChecked={singleVacation.isFollowed} //change rendering status based on redux state (troughs an error on consol)
               onChange={handleFollowVacation}
             />
           }
@@ -96,30 +116,12 @@ function VacationCard({ singleVacation }: VacationsCardProps): JSX.Element {
       Until the: <br />
       {reformatDate(singleVacation.toDate)}
       <br />
-      Price: {singleVacation.price}$ <br />
+      Price: {singleVacation.price}$
+      <br />
       <img
         src={Globals.vacationsUrl + "images/" + singleVacation.imageName}
         alt="WTF"
       />
-      <br />
-      <br />
-      <br />
-      <br />
-      <span>this is conditional rending for admin use only</span>
-      <NavLink to={"/vacations/edit/" + singleVacation.vacationId}>
-        {" "}
-        <EditIcon />
-        Edit
-      </NavLink>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        startIcon={<DeleteIcon />}
-        onClick={DeleteVacation}
-      >
-        Delete
-      </Button>
     </div>
   );
 }

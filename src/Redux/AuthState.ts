@@ -9,7 +9,6 @@ export class AuthState {
      username: "",
      password: "",
      isAdmin:false,
-     id: "",
      token:"",
      uuid: "",
      isLoggedIn: false,

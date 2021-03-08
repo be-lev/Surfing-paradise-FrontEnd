@@ -8,9 +8,10 @@ import { vacationAddedAction } from "../../../Redux/vacationsState"
 import { Globals } from "../../../Services/Globals";
 
 function AddVacation(): JSX.Element {
-
+//use history hook
     const history= useHistory();
 
+//enable use Form with validation
 const { register, handleSubmit, errors } = useForm<VacationModel>();
 
 
@@ -29,16 +30,16 @@ async function submit(vacation: VacationModel) {
         myFormData
       );
       const addedVacation = response.data;
+      //update redux
       const action = vacationAddedAction(addedVacation);
       store.dispatch(action);
       alert(
         "Vacation ID: " + addedVacation.vacationId + "has been successfully added"
       );
-
       history.push("/vacations");
     } catch (err) {
       console.log(err);
-      alert("Error");
+      alert( "Error: " + err);
     }
   }
 

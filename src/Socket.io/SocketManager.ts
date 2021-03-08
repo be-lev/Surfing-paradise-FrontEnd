@@ -24,17 +24,13 @@ class SocketManager {
            store.dispatch(vacationUpdatedAction(updatedVacation))
         });
 
-        //! i suspect the ID argument here
         this.socket.on("msg-from-server-vacation-deleted", (vacationId: VacationModel) => {
             store.dispatch(vacationDeletedAction(vacationId))
         });
 
-        this.socket.on("msg-from-server-vacation-followed", (addedFollowVacation: VacationModel)=> {
-            store.dispatch(vacationFollowedAction(addedFollowVacation))   
-        })
     }
 
-//on logout of admin
+//on logout 
     public disconnect() : void {
         this.socket.disconnect();
     }

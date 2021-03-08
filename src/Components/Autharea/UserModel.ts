@@ -5,10 +5,10 @@ class UserModel {
     public username: string;
     public password: any;
     public token: string
-    public id: string;
     public uuid: string;
     public isLoggedIn: boolean;
     public isAdmin: boolean;
+    // cant get this 2 off problem with new typescript 
     findIndex: any;
     splice: any;
 }

@@ -18,7 +18,7 @@ import { userLoggedInAction } from "../../../Redux/AuthState";
 import { setAuthorizationToken } from "../Auth/auth";
 
 function Login(): JSX.Element {
- const history = useHistory();
+  const history = useHistory();
   const { register, handleSubmit } = useForm<UserModel>();
 
   async function send(user: UserModel) {
@@ -28,19 +28,21 @@ function Login(): JSX.Element {
         user
       );
       const userLoggedIn = response.data;
-      const token = userLoggedIn.token
-      sessionStorage.setItem("jwtToken", JSON.stringify(token))
-      setAuthorizationToken(token)
-      const action = userLoggedInAction({...userLoggedIn, isLoggedIn:true} );
+      // adding Interceptor JWT authorization
+      const token = userLoggedIn.token;
+      sessionStorage.setItem("jwtToken", JSON.stringify(token));
+      setAuthorizationToken(token);
+      //updating redux
+      const action = userLoggedInAction({ ...userLoggedIn, isLoggedIn: true });
       store.dispatch(action);
 
+      //connect to socket-io machismo
       socketManagerInstance.connect();
-
-
+    // redirect to home
       history.push("/home");
     } catch (err) {
-      console.log(err);
-      alert("Error");
+      console.log("Wrong password or username please try again" + err);
+      alert("Error wrong password or username please try again");
     }
   }
 
@@ -80,7 +82,7 @@ function Login(): JSX.Element {
             name="username"
             variant="outlined"
             className={classes.textBox}
-            inputRef={register}
+            inputRef={register({ required: true })}
           />
           <br />
           <TextField
@@ -89,14 +91,13 @@ function Login(): JSX.Element {
             name="password"
             variant="outlined"
             className={classes.textBox}
-            inputRef={register}
+            inputRef={register({ required: true })}
           />
           <br />
-          <input className="input-button" type="submit"/>
+          <input className="input-button" type="submit" />
         </form>
       </div>
     </ThemeProvider>
-   
   );
 }
 

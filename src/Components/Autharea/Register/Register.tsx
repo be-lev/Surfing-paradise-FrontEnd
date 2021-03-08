@@ -14,16 +14,17 @@ import Input from "@material-ui/core/Input";
 function Register(): JSX.Element {
   const history = useHistory();
   const { register, handleSubmit } = useForm<UserModel>();
-
   async function send(user: UserModel) {
     try {
       await Axios.post<UserModel>(Globals.authUrl + "register", user);
-      alert("Hi, " + user.firstName +  " " + "you are a part of the family now");
-
+      alert("Hi, " + user.firstName + " you are a part of the family now");
       history.push("/login");
-    } catch (err) {
-      console.log(err);
-      alert("Error");
+    } 
+    catch (err) {
+      if(err.response.status===409){
+        alert("username already in use please try a new username combination ")
+      }else{ alert("error");}
+     
     }
   }
 
@@ -66,6 +67,7 @@ function Register(): JSX.Element {
             variant="outlined"
             className={classes.textBox}
             inputRef={register}
+            // {errors.firstName?.type === "required" && <span>Missing First name .</span>}
           />
           <br />
           <TextField
